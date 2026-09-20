@@ -42,4 +42,7 @@ class split_writer:
         self.writer_2.writerow(row2)
         self.file_2.flush()
 
+    def close( self ):
+        self.file_1.close()
+        self.file_2.close()
 

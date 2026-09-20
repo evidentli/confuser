@@ -106,12 +106,12 @@ def confuse_str( line ):
                 line = replace_char(line);
 
             elif (r > 1 - params.p_del_char - params.p_ins_char - params.p_rep_char - params.p_transp_char):
-                # replace a rand character by another rand character
+                # transpose two adjacent characters
                 line = transpose_chars(line);
 
             elif (r > 1 - params.p_del_char - params.p_ins_char - params.p_rep_char - params.p_transp_char - params.p_dup_char):
-                # replace a rand character by another rand character
-                line = transpose_chars(line);
+                # duplicate a random character
+                line = duplicate_char(line);
 
             elif (r > 1 - params.p_del_char - params.p_ins_char - params.p_rep_char - params.p_transp_char - params.p_dup_char - params.p_tog_case_char):
                 # capitalise a rand character 
@@ -121,4 +121,3 @@ def confuse_str( line ):
 
 def get_obscure_str( i = 10 ):
     return ''.join(random.choices(string.digits + string.ascii_letters, k = i))
-

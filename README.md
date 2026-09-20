@@ -25,7 +25,7 @@ The following assume _python_ is pointing to python version 3.
 To run all unit tests:
 
 ```bash
-python -m unitttest discover -v tests/unit
+python -m unittest discover -v tests/unit
 ```
 
 To run a specific test file:

@@ -10,19 +10,19 @@ class TestConfuserDate(TestCase):
 
         assert os.access('./a_table.csv', os.R_OK)
         assert os.access('./b_table.csv', os.R_OK)
-        f = open('./a_table.csv', 'r')
-        ahead = f.readline()
-        print("ahead: ", ahead)
-        abody = f.readline()
-        print("abody: ", abody)
+        with open('./a_table.csv', 'r') as f:
+            ahead = f.readline()
+            print("ahead: ", ahead)
+            abody = f.readline()
+            print("abody: ", abody)
 
-        f = open('./a_table.csv', 'r')
-        alines = f.readlines()
-        print(alines)
+        with open('./a_table.csv', 'r') as f:
+            alines = f.readlines()
+            print(alines)
 
-        f = open('./b_table.csv', 'r')
-        bhead = f.readline()
-        bbody = f.readline()
+        with open('./b_table.csv', 'r') as f:
+            bhead = f.readline()
+            bbody = f.readline()
 
         assert ahead.startswith('a')
         assert bhead.startswith('a')
@@ -31,6 +31,6 @@ class TestConfuserDate(TestCase):
         assert sum(1 for x in bhead if x == ',') == 2
         assert sum(1 for x in bbody if x == ',') == 2
 
+        a.close()
         os.unlink('./a_table.csv')
         os.unlink('./b_table.csv')
-

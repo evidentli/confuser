@@ -1,7 +1,9 @@
 from unittest import TestCase
+from unittest.mock import patch
 import re
 
 from confuser.confuser_str import *
+from confuser.confuser_params import params
 
 class TestConfuserStr(TestCase):
 
@@ -63,6 +65,38 @@ class TestConfuserStr(TestCase):
         d = duplicate_char('ab')
         assert  d == 'aab' or d == 'abb'
         assert len(duplicate_char('abcdefghij')) == 11
+
+    def test_confuse_str_duplicate_char_branch( self ):
+        with patch('confuser.confuser_str.random.random', side_effect=[0.0, 0.2]), \
+             patch('confuser.confuser_str.random.randrange', return_value=1):
+            original_max_typos = params.max_typos
+            original_p_typo = params.p_typo
+            original_p_del_char = params.p_del_char
+            original_p_ins_char = params.p_ins_char
+            original_p_rep_char = params.p_rep_char
+            original_p_transp_char = params.p_transp_char
+            original_p_dup_char = params.p_dup_char
+            original_p_tog_case_char = params.p_tog_case_char
+            try:
+                params.max_typos = 1
+                params.p_typo = 1.0
+                params.p_del_char = 0.0
+                params.p_ins_char = 0.0
+                params.p_rep_char = 0.0
+                params.p_transp_char = 0.0
+                params.p_dup_char = 1.0
+                params.p_tog_case_char = 0.0
+
+                assert confuse_str('ab') == 'abb'
+            finally:
+                params.max_typos = original_max_typos
+                params.p_typo = original_p_typo
+                params.p_del_char = original_p_del_char
+                params.p_ins_char = original_p_ins_char
+                params.p_rep_char = original_p_rep_char
+                params.p_transp_char = original_p_transp_char
+                params.p_dup_char = original_p_dup_char
+                params.p_tog_case_char = original_p_tog_case_char
 
     def test_get_obscure_str( self ):
         assert len(get_obscure_str()) == 10
